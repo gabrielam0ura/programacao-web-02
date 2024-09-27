@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %} Detalhes do Formulário {% endblock %}
+{% block content %}
+<div id="container-form">
+  <h1>Formulário: {{ formulario.titulo }}</h1>
+  <form class="criacao">
+    <input
+      type="text"
+      name="titulo"
+      id="titulo"
+      value="{{ formulario.titulo }}"
+      required
+      disabled
+    />
+    <textarea name="descricao" id="descricao" required disabled>
+{{ formulario.descricao }}</textarea
+    >
+
+    {% for pergunta in formulario.perguntas %}
+      {% if pergunta.tipo_pergunta == 'curta' %}
+        <div class="curta" style="display: block">
+          <input
+            type="text"
+            name="perguntaCurta_{{ pergunta.id }}"
+            class="pergunta-curta"
+            placeholder="Pergunta - 01"
+            value="{{ pergunta.texto }}"
+            maxlength="200"
+            required
+            disabled
+          />
+          <input
+            type="text"
+            name="respostaCurta_{{ pergunta.id }}"
+            class="resposta-curta"
+            placeholder="O usuário poderá responder à esta pergunta em até 200 caracteres."
+            value="{{ pergunta.resposta }}"
+            maxlength="200"
+            disabled
+          />
+        </div>
+      {% elif pergunta.tipo_pergunta == 'longa' %}
+        <div class="longa" style="display: block">
+          <input
+            type="text"
+            name="perguntaLonga_{{ pergunta.id }}"
+            class="pergunta-longa"
+            placeholder="Pergunta - 02"
+            value="{{ pergunta.texto }}"
+            maxlength="200"
+            required
+            disabled
+          />
+          <input
+            type="text"
+            name="respostaLonga_{{ pergunta.id }}"
+            class="resposta-longa"
+            placeholder="O usuário poderá responder à esta pergunta sem limites de caracteres."
+            value="{{ pergunta.resposta }}"
+            maxlength="200"
+            disabled
+          />
+        </div>
+      {% elif pergunta.tipo_pergunta == 'alternativas' %}
+        <div class="alternativas" style="display: block">
+          <input
+            type="text"
+            name="perguntaAlternativas_{{ pergunta.id }}"
+            class="pergunta-alternativas"
+            placeholder="Pergunta com alternativas"
+            value="{{ pergunta.texto }}"
+            disabled
+          />
+          <div class="opcoes-alternativas">
+            {% for alternativa in pergunta.alternativas %}
+              <input
+                type="text"
+                class="opcao-alternativa"
+                value="{{ alternativa.texto }}"
+                disabled
+              />
+            {% endfor %}
+          </div>
+        </div>
+      {% elif pergunta.tipo_pergunta == 'multipla_escolha' %}
+        <div class="multipla-container" style="display: block">
+          <input
+            type="text"
+            name="perguntaMultipla_{{ pergunta.id }}"
+            class="pergunta-multipla"
+            placeholder="Pergunta com múltipla escolha"
+            value="{{ pergunta.texto }}"
+            disabled
+          />
+          {% for alternativa in pergunta.alternativas %}
+            <div class="multipla-resposta" style="display: flex; align-items: center">
+              <input
+                type="checkbox"
+                class="check"
+                name="respostaMultipla_{{ pergunta.id }}[]"
+                value="{{ alternativa.texto }}"
+                disabled
+              />
+              <label>{{ alternativa.texto }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </form>
+  <div id="acoes">
+    <!-- <a href="/formulario/{{ formulario.id }}/editar" class="editar">Editar Formulário</a> -->
+    <form
+      id="form-exclusao"
+      method="POST"
+      action="{{ url_for('excluir_formulario_rota', id=formulario.id) }}"
+    >
+      <input type="hidden" name="excluir" value="1" />
+      <button
+        type="submit"
+        class="excluir"
+      >
+        Excluir
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

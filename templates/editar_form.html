@@ -1,0 +1,107 @@
+<!-- Por alguma razão, as rotas entraram em conflito e não foi possível desenvolver a funcionalidade de edição, erro 415.-->
+
+{% extends 'base.html' %} {% block title %} Editar Formulário {% endblock %} {%
+block content %}
+<div id="container-form">
+  <h1 data-id="formulario.id" >Formulário: {{ formulario.titulo }}</h1>
+  <form class="criacao" id="formEditar" method="POST" action="/api/formulario/{{formulario.id}}/editar">
+    <input
+      type="text"
+      name="titulo"
+      id="titulo"
+      value="{{ formulario.titulo }}"
+      required
+    />
+    <textarea name="descricao" id="descricao" required>
+{{ formulario.descricao }}</textarea
+    >
+
+    {% for pergunta in formulario.perguntas %} {% if pergunta.tipo_pergunta ==
+    'curta' %}
+    <div class="curta" style="display: block">
+      <input
+        type="text"
+        name="perguntaCurta_{{ pergunta.id }}"
+        class="pergunta-curta"
+        placeholder="Pergunta - 01"
+        value="{{ pergunta.texto }}"
+        maxlength="200"
+        required
+      />
+      <input
+        type="text"
+        name="respostaCurta_{{ pergunta.id }}"
+        class="resposta-curta"
+        placeholder="O usuário poderá responder à esta pergunta em até 200 caracteres."
+        value="{{ pergunta.resposta }}"
+        maxlength="200"
+        disabled
+      />
+    </div>
+    {% elif pergunta.tipo_pergunta == 'longa' %}
+    <div class="longa" style="display: block">
+      <input
+        type="text"
+        name="perguntaLonga_{{ pergunta.id }}"
+        class="pergunta-longa"
+        placeholder="Pergunta - 02"
+        value="{{ pergunta.texto }}"
+        maxlength="200"
+      />
+      <input
+        type="text"
+        name="respostaLonga_{{ pergunta.id }}"
+        class="resposta-longa"
+        placeholder="O usuário poderá responder à esta pergunta sem limites de caracteres."
+        value="{{ pergunta.resposta }}"
+        maxlength="200"
+        disabled
+      />
+    </div>
+    {% elif pergunta.tipo_pergunta == 'alternativas' %}
+    <div class="alternativas" style="display: block">
+      <input
+        type="text"
+        name="perguntaAlternativas_{{ pergunta.id }}"
+        class="pergunta-alternativas"
+        placeholder="Pergunta com alternativas"
+        value="{{ pergunta.texto }}"
+      />
+      <div class="opcoes-alternativas">
+        {% for alternativa in pergunta.alternativas %}
+        <input
+          type="text"
+          class="opcao-alternativa"
+          value="{{ alternativa.texto }}"
+        />
+        {% endfor %}
+      </div>
+    </div>
+    {% elif pergunta.tipo_pergunta == 'multipla_escolha' %}
+    <div class="multipla-container" style="display: block">
+      <input
+        type="text"
+        name="perguntaMultipla_{{ pergunta.id }}"
+        class="pergunta-multipla"
+        placeholder="Pergunta com múltipla escolha"
+        value="{{ pergunta.texto }}"
+      />
+      {% for alternativa in pergunta.alternativas %}
+      <div class="multipla-resposta" style="display: flex; align-items: center">
+        <input
+          type="checkbox"
+          class="check"
+          name="respostaMultipla_{{ pergunta.id }}[]"
+          value="{{ alternativa.texto }}"
+        />
+        <label>{{ alternativa.texto }}</label>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endfor %}
+    <div id="acoes">
+      <input type="submit" id="editarForm" value="Salvar" />
+    </div>
+  </form>
+</div>
+{% endblock %}

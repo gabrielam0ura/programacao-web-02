@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %} Criar {% endblock %}
+{% block content %}
+<div id="container-form">
+  <h1>Crie seu formulário!</h1>
+  <form id="criacao" class="criacao" method="POST" action="/api/formulario">
+    <input
+      type="text"
+      name="titulo"
+      id="titulo"
+      placeholder="Título"
+      maxlength="200"
+      required
+    />
+    <textarea
+      name="descricao"
+      id="descricao"
+      placeholder="Descrição do seu formulário"
+      required
+    ></textarea>
+
+    <div class="curta">
+      <input
+        type="text"
+        name="perguntaCurta"
+        class="pergunta-curta"
+        placeholder="Pergunta - 01"
+        maxlength="200"
+      />
+      <input
+        type="text"
+        name="respostaCurta"
+        class="resposta-curta"
+        placeholder="O usuário poderá responder à esta pergunta em até 200 caracteres."
+        maxlength="200"
+        disabled
+      />
+    </div>
+
+    <div class="longa">
+      <input
+        type="text"
+        name="perguntaLonga"
+        class="pergunta-longa"
+        placeholder="Pergunta - 02"
+        maxlength="200"
+      />
+      <input
+        type="text"
+        name="respostaLonga"
+        class="resposta-longa"
+        placeholder="O usuário poderá responder à esta pergunta sem limites de caracteres."
+        maxlength="200"
+        disabled
+      />
+    </div>
+
+    <div class="alternativas">
+      <input
+        type="text"
+        name="perguntaAlternativas"
+        class="pergunta-alternativas"
+        placeholder="Pergunta com alternativas"
+      />
+      <div class="opcoes-alternativas"></div>
+      <button type="button" class="adicionar-opcao">Adicionar opção</button>
+    </div>
+
+    <div class="multipla-container">
+      <input
+        type="text"
+        name="perguntaMultipla"
+        class="pergunta-multipla"
+        placeholder="Pergunta com múltipla escolha"
+      />
+      <div class="multipla-respostas"></div>
+      <button type="button" class="adicionar-opcao">Adicionar opção</button>
+    </div>
+
+    <div id="acoes">
+      <select name="add" id="add">
+        <option value="" style="display: none" disabled selected>+</option>
+        <option value="Curta">Pergunta - 01</option>
+        <option value="Longa">Pergunta - 02</option>
+        <option value="Alternativas"> Pergunta com alternativas </option>
+        <option value="Multipla">Múltipla escolha</option>
+      </select>
+      <input type="submit" id="enviarForm" value="Criar" />
+    </div>
+  </form>
+</div>
+{% endblock %}

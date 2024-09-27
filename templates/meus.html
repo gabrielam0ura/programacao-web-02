@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Meus Formulários
+{% endblock %}
+
+{% block content %}
+<h1 id="meus-titulo">Meus Formulários</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+{% if formularios %}
+    <ul id="lista-forms">
+    {% for formulario in formularios %}
+        <li>{{ formulario.titulo }} - <a href="/formulario/{{ formulario.id }}">Detalhes</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p id="meus-paragrafo">Você ainda não criou nenhum formulário.</p>
+{% endif %}
+{% endblock %}

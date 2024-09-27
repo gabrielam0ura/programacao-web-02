@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/js/script.js" defer></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">
+                <img src="/static/img/fi3lds.png" alt="logo-fields" id="logo">
+            </a>
+            <ul id="itens-menu">
+                <li><a href="/criar">Criar formulário</a></li>
+                <li><a href="/meus">Meus formulários</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <p>Desenvolvido em Itapajé - CE</p>
+    </footer>
+</body>
+</html>
